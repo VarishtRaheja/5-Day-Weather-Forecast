@@ -15,7 +15,7 @@ st.subheader(f"{drop_down_option} data for {forecast_days} day(s) in {city_name}
 
 
 # MY API KEY FOR WEATHER
-api_key = "2c066aa1e14eb8c775dc702d1bcb1ea4"
+api_key = "###YOUR_API_KEY###"
 
 # Getting data from url.
 def get_data_url(place,days):
