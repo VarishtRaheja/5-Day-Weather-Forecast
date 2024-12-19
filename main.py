@@ -29,24 +29,29 @@ def get_data_url(place,days):
 
 
 if city_name:
-    weather_df, filtered_data = get_data_url(place=city_name,days=forecast_days)
-    if drop_down_option == "Temperature":
-        data = [data["dt_txt"] for data in filtered_data]
-        dates = pd.to_datetime(data, utc=True)
-        filtered_data_temperature = [temp_data["main"]["temp"] for temp_data in filtered_data]
-        temperature_dataframe = pd.DataFrame(data=zip(dates,filtered_data_temperature),columns=["Date","Temperature"])
-        # Plotting temp data.
+    try:
+        weather_df, filtered_data = get_data_url(place=city_name,days=forecast_days)
 
-        fig = px.line(x=temperature_dataframe["Date"],y=temperature_dataframe["Temperature"]
-                      ,labels={"x":"Dates","y":"Temperature(C)"},title='Temperature based on forecasted days.',markers=True)
-        st.plotly_chart(fig,theme='streamlit',use_container_width=True,on_select='rerun')
+        if drop_down_option == "Temperature":
+            data = [data["dt_txt"] for data in filtered_data]
+            dates = pd.to_datetime(data, utc=True)
+            filtered_data_temperature = [temp_data["main"]["temp"] for temp_data in filtered_data]
+            temperature_dataframe = pd.DataFrame(data=zip(dates,filtered_data_temperature),columns=["Date","Temperature"])
+            # Plotting temp data.
 
-    if drop_down_option == "Sky":
-        # Plotting sky conditions
-        filtered_data_sky = [temp_data["weather"][0]["main"] for temp_data in filtered_data]
-        images_dict = {"Clouds":"images/cloud.png","Clear":"images/clear.png","Rain":"images/rain.png","Snow":"images/snow.png"}
-        images = [images_dict[conditions] for conditions in filtered_data_sky]
-        st.image(images,width=120)
+            fig = px.line(x=temperature_dataframe["Date"],y=temperature_dataframe["Temperature"]
+                          ,labels={"x":"Dates","y":"Temperature(C)"},title='Temperature based on forecasted days.',markers=True)
+            st.plotly_chart(fig,theme='streamlit',use_container_width=True,on_select='rerun')
+
+        if drop_down_option == "Sky":
+            # Plotting sky conditions
+            filtered_data_sky = [temp_data["weather"][0]["main"] for temp_data in filtered_data]
+            images_dict = {"Clouds":"images/cloud.png","Clear":"images/clear.png","Rain":"images/rain.png","Snow":"images/snow.png"}
+            images = [images_dict[conditions] for conditions in filtered_data_sky]
+            st.image(images,width=100)
+
+    except KeyError:
+        st.write("The city entered does not exist!")
 
 
 
