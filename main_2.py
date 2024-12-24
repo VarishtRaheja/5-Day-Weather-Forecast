@@ -8,7 +8,7 @@ import seaborn as sns
 import plotly.express as px
 
 # MY API KEY FOR WEATHER
-api_key = "2c066aa1e14eb8c775dc702d1bcb1ea4"
+api_key = "###YOUR_API_KEY_###"
 
 # Developing the streamlit UI
 st.header("Exploratory Weather Analysis", divider="gray")
